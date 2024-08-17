@@ -30,6 +30,13 @@ async function run() {
     await client.connect();
 
     const productsCollection = client.db("cartItems").collection("products");
+
+    app.get('/products', async(req, res) => {
+      const cursor = productsCollection.find();
+      const result = await cursor.toArray();
+      console.log(result)
+      res.send(result)
+    })
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
