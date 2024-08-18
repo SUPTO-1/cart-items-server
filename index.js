@@ -31,11 +31,28 @@ async function run() {
 
     const productsCollection = client.db("cartItems").collection("products");
 
-    app.get('/products', async(req, res) => {
-      const cursor = productsCollection.find();
+    app.get('/products', async (req, res) => {
+      const page = parseInt(req.query.page) || 1; 
+      const limit = parseInt(req.query.limit) || 10;
+
+      const skip = (page - 1) * limit;
+
+      
+      const cursor = productsCollection
+        .find(query)
+        .skip(skip)
+        .limit(limit);
+
       const result = await cursor.toArray();
-      console.log(result)
-      res.send(result)
+      const totalItems = await productsCollection.countDocuments(query); 
+      const totalPages = Math.ceil(totalItems / limit); 
+
+      res.send({
+        products: result,
+        totalItems,
+        totalPages,
+        currentPage:page,
+});
     })
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
