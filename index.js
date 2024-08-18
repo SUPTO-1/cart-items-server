@@ -64,6 +64,8 @@ async function run() {
           sortQuery.price = 1; 
         } else if (sortOption === "Price: High to Low") {
           sortQuery.price = -1; 
+        } else if (sortOption === "Latest") {
+          sortQuery.creation_date = -1; 
         }
       }
       
