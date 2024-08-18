@@ -36,6 +36,7 @@ async function run() {
       const limit = parseInt(req.query.limit) || 10;
       const Brand = req.query.brand_name;
       const CategoryName = req.query.category_name;
+      const PriceRange = req.query.price;
       const skip = (page - 1) * limit;
 
       let query = {};
@@ -47,6 +48,12 @@ async function run() {
 
         query.category_name = CategoryName;
          
+      }
+
+
+      if(PriceRange){
+        const [minPrice, maxPrice] = PriceRange.split('-').map(Number);
+        query.price = { $gte: minPrice, $lte:maxPrice};
       }
       
       const cursor = productsCollection
