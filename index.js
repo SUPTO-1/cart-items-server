@@ -39,6 +39,7 @@ async function run() {
       const PriceRange = req.query.price;
       const sortOption = req.query.sorting;
       const skip = (page - 1) * limit;
+      const search = req.query.search;
 
       let query = {};
     
@@ -68,6 +69,15 @@ async function run() {
           sortQuery.creation_date = -1; 
         }
       }
+
+      if (search) {
+        query.product_name = {
+          $regex: search,
+          $options: "i",
+        };
+      }
+
+      console.log(search);
       
       const cursor = productsCollection
         .find(query)
