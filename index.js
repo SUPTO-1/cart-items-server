@@ -62,6 +62,8 @@ async function run() {
       if (sortOption) {
         if (sortOption === "Price: Low to High") {
           sortQuery.price = 1; 
+        } else if (sortOption === "Price: High to Low") {
+          sortQuery.price = -1; 
         }
       }
       
