@@ -35,12 +35,18 @@ async function run() {
       const page = parseInt(req.query.page) || 1; 
       const limit = parseInt(req.query.limit) || 10;
       const Brand = req.query.brand_name;
+      const CategoryName = req.query.category_name;
       const skip = (page - 1) * limit;
 
       let query = {};
     
       if (Brand) {
         query = { brand_name: Brand }; 
+      }
+      if (CategoryName) {
+
+        query.category_name = CategoryName;
+         
       }
       
       const cursor = productsCollection
